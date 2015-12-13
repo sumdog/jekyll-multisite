@@ -21,6 +21,7 @@ require 'jekyll'
 require 'jekyll/reader'
 require 'jekyll/cleaner'
 require 'fileutils'
+require 'pathname'
 
 module Jekyll
 
@@ -64,7 +65,7 @@ module Jekyll
       read_directories
  
       if @site.config['shared_dir']
-        read_directories @site.config['shared_dir']
+        read_directories File.join('..', @site.config['shared_dir'])
       end
       
       sort_files!
@@ -73,6 +74,11 @@ module Jekyll
     end
     
   end
+
+
+  # Move the _shared directories to the correct location
+  #   (very hacky - we move all the files to the correct 
+  #    location with a hook after the site is written/rendered)
 
   def self.sync_dir(cur, base,  dest)
     Dir.glob( File.join(cur, '*'), File::FNM_DOTMATCH).each do |f|
@@ -83,19 +89,16 @@ module Jekyll
       if File.basename(f) == '.' or File.basename(f) == '..'
         next 
       elsif File.directory?(f)
-	if not File.exists?(dest_dir)
-	  Dir.mkdir(dest_dir)
-	end
+	      if not File.exists?(dest_dir)
+	        Dir.mkdir(dest_dir)
+	      end
         sync_dir(f, base, dest)
-	Dir.rmdir(f)
+	      Dir.rmdir(f)
       else
-	FileUtils.mv(f, dest_dir)
+	      FileUtils.mv(f, dest_dir)
       end
     end
   end
-
-  # Move the _shared directories to the correct location
-  #   (very hacky)
 
   Jekyll::Hooks.register :site, :post_write do |site|
     base_shared = File.basename(site.config['shared_dir'])
@@ -132,29 +135,26 @@ module Jekyll
             if num_page > 1
 
               # Here is our monkey patch
-	      if site.config['shared_pagination'] == true
-	        base = File.expand_path(File.join(site.source, '..'))
+	            if site.config['shared_pagination'] == true
+	              base = File.expand_path(File.join(site.source, '..'))
                 newpage = Page.new(site, base, page.dir, page.name)
               else
-	        newpage = Page.new(site, site.source, page.dir, page.name)
-	      end
-	      newpage.pager = pager
+	              newpage = Page.new(site, site.source, page.dir, page.name)
+	            end
+
+	            newpage.pager = pager
               newpage.dir = Pager.paginate_path(site, num_page)
               site.pages << newpage
             else
               page.pager = pager
             end
+          end
         end
-      end
- 
       end
 
     end
-
   rescue LoadError
     # not installed
   end
-
-
 
 end
