@@ -112,6 +112,24 @@ module Jekyll
     Dir.rmdir(static_shared_dir)
   end
 
+  # excluded files
+
+  class EntryFilter
+
+    def relative_to_source(entry)
+
+      shared_base = File.join('/..', @site.config['shared_dir'])
+      rel_path = File.join(base_directory, entry)
+
+      if base_directory.start_with?(shared_base)
+        rel_path.sub(/^#{shared_base}/,'')
+      else
+        rel_path
+      end
+    end
+
+  end
+
   # jekyll-pagination fixes for multi-side
 
   begin
