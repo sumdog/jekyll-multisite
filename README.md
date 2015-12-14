@@ -27,59 +27,54 @@ To install from source:
 Usage
 -----
 
-In your `_config.yml`, add the following section:
-
-    ...
-    gems: 
-      - jekyll-multisite
-    
-    shared: _shared
-    shared_pagination: true
-    ...
-
 Each individual site needs to have it's own configuration file with it's own source and destination. Let's use `_example_com.yml` to demonstrate:
 
-   ...
-   title: Example dot Com
-   url: http://example.com
-   destination: _site/example.com
-   source: '_example.com'
-   exclude: ['some-file.md']
-   ...
+```
+...
+title: Example dot Com
+url: http://example.com
+destination: _site/example.com
+source: '_example.com'
+exclude: ['some-file.md']
+...
+```
 
 Now, lets' create a second site as well, in a file called `_example_net.yml`
 
-   ...
-   title: Example dot Net
-   url: http://example.net
-   destination: _site/example.net
-   source: '_example.net'
-   exclude: ['some-other-file.md']
-   ...
+```
+...
+title: Example dot Net
+url: http://example.net
+destination: _site/example.net
+source: '_example.net'
+exclude: ['some-other-file.md']
+...
+```
 
 Finally, we need a base `_config.yml` that declares all the settings that are shared:
 
-   email: nobody@example.com
-   baseurl: ""
-   paginate: 10
-   gems:
-    - jekyll-multisite
-    - jekyll-paginate
+```
+email: nobody@example.com
+baseurl: ""
+paginate: 10
+gems:
+ - jekyll-multisite
+ - jekyll-paginate
 
-   markdown: kramdown
+markdown: kramdown
 
-   layouts_dir: _layouts
-   includes_dir: _includes
-   plugins_dir: _plugins
-   shared_dir: _shared
-   shared_pagination: true
+layouts_dir: _layouts
+includes_dir: _includes
+plugins_dir: _plugins
+shared_dir: _shared
+shared_pagination: true
 
-   include: ['.htaccess']
+include: ['.htaccess']
 
-   sass:
-     sass_dir: _sass
-     style: compressed
-
+sass:
+  sass_dir: _sass
+  style: compressed
+```
 
 Due to the way things are done internally in Jekyll and the limitation of my plugin, the shared source directory must be one directory down from the source path. Your directory structure should look like the following:
 
@@ -131,11 +126,11 @@ Take care to notice you still need a symbolic link for `_plugins` to work correc
 
 Things to note:
 
-# Due to a bug, you still need to symbolic link `_plugins` from your base to the site source
-# Watching and dynamic updating of changed to the `_shared` directory doesn't currently work
-# `_shared` must be one directory below (../) the source for each website.
-# If you have something in both the site source and the shared source, the shared will overwrite what is in the site source
-# I had to monkey patch the pagination plugin to work with this setup. You may have to adjust other plugins for multi-site support
-# The shared output is actually generated in `_site` and moved after generation is complete
-# This entire plugin is very hacky and does some interesting stuff under the hood to get multi-site working. 
-# Only tested on Jekyll 3.0.1. Other versions will most likely not work.
+* Due to a bug, you still need to symbolic link `_plugins` from your base to the site source
+* Watching and dynamic updating of changed to the `_shared` directory doesn't currently work
+* `_shared` must be one directory below (../) the source for each website.
+* If you have something in both the site source and the shared source, the shared will overwrite what is in the site source
+* I had to monkey patch the pagination plugin to work with this setup. You may have to adjust other plugins for multi-site support
+* The shared output is actually generated in `_site` and moved after generation is complete
+* This entire plugin is very hacky and does some interesting stuff under the hood to get multi-site working. 
+* Only tested on Jekyll 3.0.1. Other versions will most likely not work.
