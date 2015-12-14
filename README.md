@@ -67,7 +67,6 @@ layouts_dir: _layouts
 includes_dir: _includes
 plugins_dir: _plugins
 shared_dir: _shared
-shared_pagination: true
 
 include: ['.htaccess']
 

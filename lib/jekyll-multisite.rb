@@ -153,7 +153,7 @@ module Jekyll
             if num_page > 1
 
               # Here is our monkey patch
-	            if site.config['shared_pagination'] == true
+	            if File.basename(page.dir) == site.config['shared_dir']
 	              base = File.expand_path(File.join(site.source, '..'))
                 newpage = Page.new(site, base, page.dir, page.name)
               else
