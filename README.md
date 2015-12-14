@@ -65,7 +65,8 @@ markdown: kramdown
 
 layouts_dir: _layouts
 includes_dir: _includes
-plugins_dir: _plugins
+plugins_dir:
+ - _plugins
 shared_dir: _shared
 
 include: ['.htaccess']
@@ -74,6 +75,8 @@ sass:
   sass_dir: _sass
   style: compressed
 ```
+
+**Please note the `_plugins` directory must be a list and not a strong** [See Issue #4261](https://github.com/jekyll/jekyll/issues/4261)
 
 Due to the way things are done internally in Jekyll and the limitation of my plugin, the shared source directory must be one directory down from the source path. Your directory structure should look like the following:
 
@@ -88,7 +91,6 @@ Due to the way things are done internally in Jekyll and the limitation of my plu
 │   ├── favicon.ico
 │   ├── files
 │   ├── images
-│   ├── _plugins -> ../_plugins/
 │   ├── _posts
 │   └── videos.html
 ├── _example_com.yml
@@ -100,7 +102,6 @@ Due to the way things are done internally in Jekyll and the limitation of my plu
 │   ├── favicon.ico
 │   ├── files
 │   ├── images
-│   ├── _plugins -> ../_plugins/
 │   ├── _posts
 │   └── videos.html
 ├── _example_net.yml
@@ -118,14 +119,14 @@ Due to the way things are done internally in Jekyll and the limitation of my plu
 └── _plugins
 ```
 
-Take care to notice you still need a symbolic link for `_plugins` to work correctly (I'm working on fixing that). When you build you sites, built them like so:
+When you build you sites, built them like so:
 
     jekyll build --config _config.yml,_example_net.yml
     jekyll build --config _config.yml,_example_com.yml
 
 Things to note:
 
-* Due to a bug, you still need to symbolic link `_plugins` from your base to the site source
+* `_plugins` must be a list. Since the `plugin_manager.rb` is loaded first to load this plugin, there is no way to monkey-patch in a fix for this.
 * Watching and dynamic updating of changed to the `_shared` directory doesn't currently work
 * `_shared` must be one directory below (../) the source for each website.
 * If you have something in both the site source and the shared source, the shared will overwrite what is in the site source
