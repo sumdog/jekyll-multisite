@@ -3,12 +3,12 @@ jekyll-multisite
 
 [![Gem](https://img.shields.io/gem/v/jekyll-multisite.svg?style=plastic)]()
 
-Jekyll doesn't support multiple sites by default. If you want to have multiple sites with shared source code with Jekyll, you'll need to use the [jekyll-unsanitize](https://github.com/sumdog/jekyll-unsanitize) gem plus a ton of ugly symbolic links in your source tree. The following plugin adds support for a sahred base that can be used in multiple Jekyll projects.  
+Jekyll doesn't support multiple sites by default. If you want to have multiple sites with shared source code with Jekyll, you'll need to use the [jekyll-unsanitize](https://github.com/sumdog/jekyll-unsanitize) gem plus a ton of ugly symbolic links in your source tree. The following plugin adds support for a shared base that can be used in multiple Jekyll projects.
 
 Dependencies
 --------
 
-* jekyll v3.0.1+
+* jekyll v3.0.1
 
 Installation
 ------------
@@ -76,7 +76,7 @@ sass:
   style: compressed
 ```
 
-**Please note the `_plugins` directory must be a list and not a strong** [See Issue #4261](https://github.com/jekyll/jekyll/issues/4261)
+**Please note the `_plugins` directory must be a list and not a string** [See Issue #4261](https://github.com/jekyll/jekyll/issues/4261)
 
 Due to the way things are done internally in Jekyll and the limitation of my plugin, the shared source directory must be one directory down from the source path. Your directory structure should look like the following:
 
@@ -130,7 +130,7 @@ Things to note:
 * Watching and dynamic updating of changed to the `_shared` directory doesn't currently work
 * `_shared` must be one directory below (../) the source for each website.
 * If you have something in both the site source and the shared source, the shared will overwrite what is in the site source
-* I had to monkey patch the pagination plugin to work with this setup. You may have to adjust other plugins for multi-site support
+* I had to monkey patch the pagination plugin to work with this setup. This gem auto-detects if you have jekyll-pagination and applies the patch if needed. You may have to adjust other plugins for multi-site support
 * The shared output is actually generated in `_site` and moved after generation is complete
 * This entire plugin is very hacky and does some interesting stuff under the hood to get multi-site working. 
 * Only tested on Jekyll 3.0.1. Other versions will most likely not work.
