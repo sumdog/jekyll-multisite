@@ -46,7 +46,7 @@ module Jekyll
   class Cleaner
     def parent_dirs(file)
       parent_dir = File.dirname(file)
-      if parent_dir == '/'
+      if parent_dir == '/' or File.dirname(parent_dir) == parent_dir or !parent_dir.start_with?(site.dest)
         []
       elsif parent_dir == site.dest
         []
