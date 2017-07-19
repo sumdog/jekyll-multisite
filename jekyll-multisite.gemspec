@@ -10,5 +10,5 @@ Gem::Specification.new do |s|
   s.homepage = 'http://penguindreams.org'
   s.license = 'GPL-3.0'
   s.files = ['lib/jekyll-multisite.rb']
-  s.add_runtime_dependency 'jekyll', '~> 3.0', '>= 3.0.1'
+  s.add_runtime_dependency 'jekyll', '>= 3.2', '< 3.6'
 end

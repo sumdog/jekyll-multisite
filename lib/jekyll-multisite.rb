@@ -100,6 +100,10 @@ module Jekyll
     end
   end
 
+  Jekyll::Hooks.register :site, :after_init do |site|
+    site.includes_load_paths << File.join(site.source, File.join('../', site.config["includes_dir"].to_s))
+  end
+
   Jekyll::Hooks.register :site, :post_write do |site|
     base_shared = File.basename(site.config['shared_dir'])
     shared_dir = File.join(site.dest, base_shared)
