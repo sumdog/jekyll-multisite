@@ -34,7 +34,9 @@ module Jekyll
        base_directory
      elsif questionable_path.start_with?(base_directory)
        questionable_path
-     elsif File.exists?(questionable_path) and !questionable_path.start_with?('/')
+     elsif File.exists?(questionable_path) and !questionable_path.start_with?('/') and (ENV['OS'] == 'Windows_NT')
+       File.expand_path(questionable_path)
+     elsif File.exists?(questionable_path) and questionable_path != '/' and !(ENV['OS'] == 'Windows_NT')
        File.expand_path(questionable_path)
      else
        File.join(base_directory, questionable_path)
