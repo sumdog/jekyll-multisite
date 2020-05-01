@@ -34,7 +34,9 @@ module Jekyll
        base_directory
      elsif questionable_path.start_with?(base_directory)
        questionable_path
-     elsif File.exists?(questionable_path) and questionable_path != '/'
+     elsif File.exists?(questionable_path) and !questionable_path.start_with?('/') and (ENV['OS'] == 'Windows_NT')
+       File.expand_path(questionable_path)
+     elsif File.exists?(questionable_path) and questionable_path != '/' and !(ENV['OS'] == 'Windows_NT')
        File.expand_path(questionable_path)
      else
        File.join(base_directory, questionable_path)
@@ -46,7 +48,7 @@ module Jekyll
   class Cleaner
     def parent_dirs(file)
       parent_dir = File.dirname(file)
-      if parent_dir == '/'
+      if parent_dir == '/' or File.dirname(parent_dir) == parent_dir or !parent_dir.start_with?(site.dest)
         []
       elsif parent_dir == site.dest
         []
