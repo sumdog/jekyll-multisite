@@ -1,6 +1,10 @@
 jekyll-multisite
 =================
 
+# NO LONGER MAINTAINED
+
+My last [website redesign](https://battlepenguin.com/tech/a-history-of-personal-and-professional-websites/) removed my need for this plugin. [csware's fork](https://github.com/csware/jekyll-multisite/) is actively maintained, fixes some bugs, and works with newer versions of Jekyll. It is now the official tree for jekyll-multisite. Future releases to the jekyll-multisite gem (>0.3) will come from that repo.
+
 [![Gem](https://img.shields.io/gem/v/jekyll-multisite.svg?style=plastic)]()
 
 Jekyll doesn't support multiple sites by default. If you want to have multiple sites with shared source code with Jekyll, you'll need to use the [jekyll-unsanitize](https://github.com/sumdog/jekyll-unsanitize) gem plus a ton of ugly symbolic links in your source tree. The following plugin adds support for a shared base that can be used in multiple Jekyll projects.
@@ -132,5 +136,5 @@ Things to note:
 * If you have something in both the site source and the shared source, the shared will overwrite what is in the site source
 * I had to monkey patch the pagination plugin to work with this setup. This gem auto-detects if you have jekyll-pagination and applies the patch if needed. You may have to adjust other plugins for multi-site support
 * The shared output is actually generated in `_site` and moved after generation is complete
-* This entire plugin is very hacky and does some interesting stuff under the hood to get multi-site working. 
+* This entire plugin is very hacky and does some interesting stuff under the hood to get multi-site working.
 * Only tested on Jekyll 3.0.1. Other versions will most likely not work.
